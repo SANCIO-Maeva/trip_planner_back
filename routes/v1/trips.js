@@ -9,7 +9,10 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 
-////////////// Create /trips  //////////////
+
+/////////////////////////////////////////
+////////////// Create /trips  ///////////
+/////////////////////////////////////////
 
 router.post("/", async (req, res) => {
   let trip;
@@ -32,3 +35,29 @@ router.post("/", async (req, res) => {
 });
 
 export default router;
+
+
+
+/////////////////////////////////////////
+////////////// Read /trips //////////////
+/////////////////////////////////////////
+
+router.get("/trips", async (req, res) => {
+    // asc ou desc
+    const sortOrderQuery = req.query.sortOrder;
+    const sortByQuery = req.query.sortBy;
+  
+    // tri
+    let orderBy = [];
+    if (sortOrderQuery) {
+      orderBy.push({
+        [sortByQuery]: sortOrderQuery,
+      });
+    } 
+    
+    const trips = await prisma.trip.findMany({
+      orderBy,
+    });
+  
+    res.json(trips);
+  });
