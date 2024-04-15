@@ -18,8 +18,8 @@ model Trip {
   id         String   @id @default(uuid()) 
   prompt     String   @db.Text
   output     String?
-  created_at DateTime
-  updated_ad DateTime 
+  createdAt DateTime
+  updatedAt DateTime? 
 
   @@fulltext([prompt])
 }
