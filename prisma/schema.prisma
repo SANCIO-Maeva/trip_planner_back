@@ -6,9 +6,26 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextIndex"]
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Trip {
+  id         String   @id @default(uuid()) 
+  prompt     String   @db.Text
+  output     String?
+  created_at DateTime
+  updated_ad DateTime 
+
+  @@fulltext([prompt])
+}
+
+
+
+
+
+
