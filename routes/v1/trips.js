@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 
 
 /////////////////////////////////////////
-////////////// Create /trips  ///////////
+/////////////* Create /trips  *//////////
 /////////////////////////////////////////
 
 router.post("/", async (req, res) => {
@@ -39,7 +39,7 @@ export default router;
 
 
 /////////////////////////////////////////
-////////////// Read /trips //////////////
+/////////////* Read /trips */////////////
 /////////////////////////////////////////
 
 router.get("/trips", async (req, res) => {
@@ -60,4 +60,24 @@ router.get("/trips", async (req, res) => {
     });
   
     res.json(trips);
+  });
+
+
+
+/////////////////////////////////////////
+//////////* Read /trips/:id *////////////
+/////////////////////////////////////////
+
+  router.get("/:id", async (req, res, next) => {
+    const trip = await prisma.trip.findUnique({
+      where: {
+        id: parseString(req.params.id),
+      },
+    });
+  
+    if (!trip) {
+      return next(createError(404, "Trip not found"));
+    }
+  
+    res.json(trip);
   });
