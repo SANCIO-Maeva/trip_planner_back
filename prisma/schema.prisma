@@ -17,8 +17,8 @@ datasource db {
 model Trip {
   id         String   @id @default(uuid()) 
   prompt     String   @db.Text
-  output     String?
-  createdAt DateTime
+  output     String?  @db.Text
+  createdAt DateTime?
   updatedAt DateTime? 
 
   @@fulltext([prompt])
