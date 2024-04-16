@@ -38,7 +38,7 @@ router.post("/", async (req, res) => {
           Authorization: `Bearer ${MISTRAL_API_KEY}`,
         },
         body: JSON.stringify({
-          model: "open-mistral-7b",
+          model: "open-mixtral-8x7b",
           messages: [{ role: "user", content: prePrompt + " " + prompt }],
         }),
       }
