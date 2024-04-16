@@ -71,7 +71,7 @@ router.get("/trips", async (req, res) => {
   router.get("/:id", async (req, res, next) => {
     const trip = await prisma.trip.findUnique({
       where: {
-        id: parseString(req.params.id),
+        id: String(req.params.id),
       },
     });
   
