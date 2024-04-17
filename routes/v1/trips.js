@@ -67,7 +67,7 @@ router.post("/", async (req, res) => {
 /////////////* Read /trips */////////////
 /////////////////////////////////////////
 
-router.get("/trips", async (req, res) => {
+router.get("/", async (req, res) => {
     // asc ou desc
     const sortOrderQuery = req.query.sortOrder;
     const sortByQuery = req.query.sortBy;
