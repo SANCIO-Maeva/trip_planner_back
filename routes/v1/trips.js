@@ -10,10 +10,10 @@ const router = express.Router();
 
 const prisma = new PrismaClient();
 
+const MISTRAL_API_URL= process.env.MISTRAL_API_URL;
 const MISTRAL_API_KEY = process.env.MISTRAL_API_KEY;
-
-const prePrompt = "Tu es un planificateur de voyage, expert en tourisme. Pour la destination, le nombre de jours et le moyen de locomotion que je te donnerai à la fin du message, programme moi un itinéraire en plusieurs étapes Format de données souhaité: une liste d'élement JSON Avec, pour chaque étape: - le nom du lieu (clef JSON: name) -sa position géographique (clef JSON: location-> avec latitude/longitude en numérique) - une courte description (clef JSON: description) Donne-moi juste cette liste d'étape, sans texte aucun texte autour.";
-
+const PRE_PROMPT = process.env.PRE_PROMPT;
+const MODEL = process.env.MODEL;
 
 
 /////////////////////////////////////////
@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
 
   try {
     const mistralRes = await fetch(
-      "https://api.mistral.ai/v1/chat/completions",
+      MISTRAL_API_URL,
       {
         method: "POST",
         headers: {
@@ -38,8 +38,8 @@ router.post("/", async (req, res) => {
           Authorization: `Bearer ${MISTRAL_API_KEY}`,
         },
         body: JSON.stringify({
-          model: "mistral-small-latest",
-          messages: [{ role: "user", content: prePrompt + " " + prompt }],
+          model: MODEL,
+          messages: [{ role: "user", content: PRE_PROMPT + " " + PRE_PROMPT }],
         }),
       }
     );
@@ -55,11 +55,9 @@ router.post("/", async (req, res) => {
 
     res.status(200).json(entry);
   } catch (error) {
-    console.log(error);
     res.status(500).json({});
   }
 });
-
 
 
 
@@ -127,7 +125,7 @@ router.get("/", async (req, res) => {
       data: {
         prompt: trip.prompt,
         output: trip.output,
-        updatedAt: trip.updatedAt,
+        updatedAt: new Date(),
       },
     });
   
